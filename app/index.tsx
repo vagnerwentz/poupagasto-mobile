@@ -1,11 +1,12 @@
 import { View, StyleSheet } from "react-native";
 import { Colors } from "@/constants/Colors";
-import LoginScreen from "@/screens/LoginScreen/Index";
+
+import SignIn from "./(auth)/sign-in";
 
 export default function Index() {
   return (
     <View style={styles.container}>
-      <LoginScreen />
+      <SignIn />
     </View>
   );
 }

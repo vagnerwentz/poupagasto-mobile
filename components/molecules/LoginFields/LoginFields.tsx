@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { Button } from "@/components/atoms/Button/Button";
 import { Input } from "@/components/atoms/Input/Input";
 import styles from './styles';
@@ -6,20 +6,32 @@ import { useState } from "react";
 import { SignInDto } from "@/contracts/types/SignInDto";
 
 type LoginFieldsProps = {
+  isLoading?: boolean;
+  errorMessage: string;
   onLogin: (data: SignInDto) => void;
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export function LoginFields({ onLogin }: LoginFieldsProps) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+export function LoginFields({ onLogin, isLoading, errorMessage, setErrorMessage }: LoginFieldsProps) {
+  const [email, setEmail] = useState('johnystubark@gmail.com');
+  const [password, setPassword] = useState('Password123@_');
 
   const handleSubmit = () => {
     var signInDto: SignInDto = {
       email: email,
       password: password
     }
-    
     onLogin(signInDto);
+  }
+
+  const onChangeEmailText = (text: string) => {
+    setEmail(text);
+    if (errorMessage !== '') setErrorMessage('');
+  }
+
+  const onChangePasswordText = (text: string) => {
+    setPassword(text);
+    if (errorMessage !== '') setErrorMessage('');
   }
 
   return (
@@ -27,7 +39,8 @@ export function LoginFields({ onLogin }: LoginFieldsProps) {
       <Input 
         text="E-mail" 
         value={email}
-        onChangeText={setEmail}
+        // value="johnystubark@gmail.com"
+        onChangeText={(e) => onChangeEmailText(e)}
         placeholder="Digite o seu e-mail." 
         isFocused={true} 
       />
@@ -35,13 +48,21 @@ export function LoginFields({ onLogin }: LoginFieldsProps) {
       <Input 
         text="Senha" 
         value={password}
-        onChangeText={setPassword}
+        // value="Password123@_"
+        onChangeText={(e) => onChangePasswordText(e)}
         placeholder="Digite a sua senha." 
         isFocused={true}
         secureTextEntry={true}
       />
       <View style={{ marginTop: 24 }} />
-      <Button text="Acessar" onPress={handleSubmit} />
+      {errorMessage && 
+        (
+          <View style={styles.errorMessageContainer}>
+            <Text style={styles.errorMessage}>{errorMessage}</Text>
+          </View>
+        )
+      }
+      <Button text="Acessar" onPress={handleSubmit} isLoading={isLoading} />
     </View>
   );
 }

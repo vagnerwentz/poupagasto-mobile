@@ -8,5 +8,7 @@ export const Colors = {
     error: '#E74C3C',        // Vermelho
     success: '#2ECC71',      // Verde Claro
     white: '#FFFFFF',         // Branco
+    black: '#000000',
     buttonText: '#FFFFFF',
+    gradientError: "#f87171"
 };
